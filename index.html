@@ -1,181 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paola 💖</title>
-
-<style>
-body{
-    margin:0;
-    height:100vh;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:radial-gradient(circle at top,#1a001a,#000);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-}
-
-/* ESTRELLAS */
-.star{
-    position:fixed;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-    animation:parpadear 2s infinite alternate;
-}
-@keyframes parpadear{
-    from{opacity:0.2;}
-    to{opacity:1;}
-}
-
-/* CARD */
-.card{
-    background:white;
-    color:black;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 30px rgba(255,0,150,.6);
-    z-index:5;
-}
-
-button{
-    padding:12px 22px;
-    border:none;
-    border-radius:12px;
-    margin:10px;
-    font-size:16px;
-    cursor:pointer;
-}
-
-#yes{background:#ff4d88;color:white;}
-#no{background:#ccc;position:absolute;}
-
-/* CARTA */
-#overlay{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.8);
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    z-index:10;
-}
-
-#carta{
-    background:white;
-    color:black;
-    padding:35px;
-    border-radius:20px;
-    max-width:400px;
-    text-align:center;
-    font-size:18px;
-    box-shadow:0 0 20px #ff4d88,0 0 60px #ff99cc;
-    animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-    from{box-shadow:0 0 20px #ff4d88;}
-    to{box-shadow:0 0 60px #ff99cc;}
-}
-
-/* PÉTALOS */
-.petalo{
-    position:fixed;
-    top:-20px;
-    font-size:20px;
-    animation:caer linear infinite;
-}
-@keyframes caer{
-    to{
-        transform:translateY(110vh) rotate(360deg);
-        opacity:0;
-    }
-}
-
-/* CORAZONES */
-.heart{
-    position:fixed;
-    bottom:-20px;
-    font-size:20px;
-    animation:subir 6s linear infinite;
-    color:pink;
-}
-@keyframes subir{
-    to{
-        transform:translateY(-110vh);
-        opacity:0;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="card">
-    <h1>💌 Paola 💌</h1>
-    <p>¿Quieres ser mi San Valentín? ❤️</p>
-    <button id="yes" onclick="aceptar()">Sí 💖</button>
-    <button id="no" onmouseover="mover()" ontouchstart="mover()">No 😢</button>
-</div>
-
-<div id="overlay">
-    <div id="carta">
-        <div id="texto"></div>
-    </div>
-</div>
-
-<audio id="music" src="roslyn.mp3"></audio>
-
 <script>
 
-/* ESTRELLAS */
-for(let i=0;i<120;i++){
-    const star=document.createElement("div");
-    star.className="star";
-    star.style.left=Math.random()*100+"vw";
-    star.style.top=Math.random()*100+"vh";
-    star.style.animationDuration=(1+Math.random()*2)+"s";
-    document.body.appendChild(star);
+const mensaje = "Mi amor… gracias por existir. Eres mi paz, mi alegría, mi sueño hecho realidad. Prometo cuidarte y elegirte todos los días. Te amo infinito 💖";
+
+let escribiendo = false;
+
+function aceptar(){
+
+    if(escribiendo) return;
+    escribiendo = true;
+
+    // Mostrar carta
+    document.getElementById("overlay").style.display = "flex";
+
+    // Reproducir música
+    const audio = document.getElementById("music");
+    audio.volume = 0.7;
+    audio.play().catch(error => {
+        console.log("El navegador bloqueó el audio:", error);
+    });
+
+    // Limpiar texto antes de escribir
+    const texto = document.getElementById("texto");
+    texto.innerHTML = "";
+
+    let i = 0;
+
+    function escribir(){
+        if(i < mensaje.length){
+            texto.innerHTML += mensaje.charAt(i);
+            i++;
+            setTimeout(escribir,40);
+        }
+    }
+
+    escribir();
+    efectos();
 }
 
-/* BOTÓN QUE HUYE */
 function mover(){
     const b=document.getElementById("no");
     b.style.left=Math.random()*(window.innerWidth-120)+"px";
     b.style.top=Math.random()*(window.innerHeight-60)+"px";
 }
 
-/* ACEPTAR */
-const mensaje="Mi amor… gracias por existir. Eres mi paz, mi alegría, mi sueño hecho realidad. Prometo cuidarte, abrazarte fuerte y elegirte todos los días. Te amo infinito 💖";
-
-let i=0;
-
-function aceptar(){
-    document.getElementById("overlay").style.display="flex";
-    document.getElementById("music").play();
-    escribir();
-    efectos();
-}
-
-function escribir(){
-    if(i<mensaje.length){
-        document.getElementById("texto").innerHTML+=mensaje.charAt(i);
-        i++;
-        setTimeout(escribir,40);
-    }
-}
-
-/* EFECTOS */
 function efectos(){
 
-    /* pétalos */
+    // pétalos
     setInterval(()=>{
         const p=document.createElement("div");
         p.className="petalo";
@@ -186,19 +56,6 @@ function efectos(){
         setTimeout(()=>p.remove(),9000);
     },300);
 
-    /* corazones */
-    setInterval(()=>{
-        const h=document.createElement("div");
-        h.className="heart";
-        h.innerHTML="💞";
-        h.style.left=Math.random()*100+"vw";
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),6000);
-    },500);
-}
-
-</script>
-
-</body>
-</html>
+    // corazones
+    setInterval(
 
