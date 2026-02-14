@@ -8,66 +8,80 @@
 <style>
 body{
     margin:0;
-    min-height:100vh;
-    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    height:100vh;
+    overflow:hidden;
     font-family:Arial,sans-serif;
+    background:radial-gradient(circle at top,#1a001a,#000);
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
+    color:white;
+}
+
+/* ESTRELLAS */
+.star{
+    position:fixed;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:parpadear 2s infinite alternate;
+}
+@keyframes parpadear{
+    from{opacity:0.2;}
+    to{opacity:1;}
 }
 
 /* CARD */
 .card{
     background:white;
-    padding:25px;
+    color:black;
+    padding:30px;
     border-radius:20px;
-    max-width:400px;
-    width:95%;
     text-align:center;
-    box-shadow:0 15px 30px rgba(0,0,0,.3);
-    position:relative;
+    box-shadow:0 0 30px rgba(255,0,150,.6);
+    z-index:5;
 }
-
-h1{color:#e6005c;}
 
 button{
     padding:12px 22px;
-    font-size:16px;
     border:none;
     border-radius:12px;
     margin:10px;
+    font-size:16px;
     cursor:pointer;
 }
 
 #yes{background:#ff4d88;color:white;}
 #no{background:#ccc;position:absolute;}
 
-/* CARTA FLOTANTE */
-#cartaOverlay{
+/* CARTA */
+#overlay{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.7);
+    background:rgba(0,0,0,0.8);
     justify-content:center;
     align-items:center;
+    flex-direction:column;
     z-index:10;
 }
 
 #carta{
     background:white;
-    padding:30px;
+    color:black;
+    padding:35px;
     border-radius:20px;
-    max-width:350px;
+    max-width:400px;
     text-align:center;
     font-size:18px;
-    box-shadow:0 0 25px #ff4d88, 0 0 50px #ff99cc;
-    animation:brillar 2s infinite alternate;
+    box-shadow:0 0 20px #ff4d88,0 0 60px #ff99cc;
+    animation:glow 2s infinite alternate;
 }
 
-@keyframes brillar{
+@keyframes glow{
     from{box-shadow:0 0 20px #ff4d88;}
-    to{box-shadow:0 0 50px #ff99cc;}
+    to{box-shadow:0 0 60px #ff99cc;}
 }
 
 /* PÉTALOS */
@@ -75,13 +89,26 @@ button{
     position:fixed;
     top:-20px;
     font-size:20px;
-    animation:caer 8s linear infinite;
-    opacity:0.8;
+    animation:caer linear infinite;
 }
-
 @keyframes caer{
     to{
         transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+/* CORAZONES */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:subir 6s linear infinite;
+    color:pink;
+}
+@keyframes subir{
+    to{
+        transform:translateY(-110vh);
         opacity:0;
     }
 }
@@ -93,62 +120,81 @@ button{
 
 <div class="card">
     <h1>💌 Paola 💌</h1>
-    <p>Mi gordita hermosa…</p>
     <p>¿Quieres ser mi San Valentín? ❤️</p>
-
     <button id="yes" onclick="aceptar()">Sí 💖</button>
     <button id="no" onmouseover="mover()" ontouchstart="mover()">No 😢</button>
 </div>
 
-<!-- CARTA -->
-<div id="cartaOverlay">
+<div id="overlay">
     <div id="carta">
-        <div id="textoCarta"></div>
+        <div id="texto"></div>
     </div>
 </div>
 
-<!-- AUDIO -->
-<audio id="musica" src="roslyn.mp3"></audio>
+<audio id="music" src="roslyn.mp3"></audio>
 
 <script>
 
-const mensaje = "Mi amor… gracias por cada sonrisa, cada abrazo y cada momento. Eres mi lugar seguro, mi felicidad diaria y mi persona favorita. Te amo infinito 💖";
-
-let i = 0;
-
-function aceptar(){
-    document.getElementById("cartaOverlay").style.display="flex";
-    document.getElementById("musica").play();
-    escribir();
-    lanzarPetalos();
+/* ESTRELLAS */
+for(let i=0;i<120;i++){
+    const star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    star.style.animationDuration=(1+Math.random()*2)+"s";
+    document.body.appendChild(star);
 }
 
-function escribir(){
-    if(i < mensaje.length){
-        document.getElementById("textoCarta").innerHTML += mensaje.charAt(i);
-        i++;
-        setTimeout(escribir,40);
-    }
-}
-
+/* BOTÓN QUE HUYE */
 function mover(){
     const b=document.getElementById("no");
     b.style.left=Math.random()*(window.innerWidth-120)+"px";
     b.style.top=Math.random()*(window.innerHeight-60)+"px";
 }
 
-/* PÉTALOS */
-function lanzarPetalos(){
+/* ACEPTAR */
+const mensaje="Mi amor… gracias por existir. Eres mi paz, mi alegría, mi sueño hecho realidad. Prometo cuidarte, abrazarte fuerte y elegirte todos los días. Te amo infinito 💖";
+
+let i=0;
+
+function aceptar(){
+    document.getElementById("overlay").style.display="flex";
+    document.getElementById("music").play();
+    escribir();
+    efectos();
+}
+
+function escribir(){
+    if(i<mensaje.length){
+        document.getElementById("texto").innerHTML+=mensaje.charAt(i);
+        i++;
+        setTimeout(escribir,40);
+    }
+}
+
+/* EFECTOS */
+function efectos(){
+
+    /* pétalos */
     setInterval(()=>{
         const p=document.createElement("div");
         p.className="petalo";
         p.innerHTML="🌹";
         p.style.left=Math.random()*100+"vw";
-        p.style.fontSize=(15+Math.random()*20)+"px";
         p.style.animationDuration=(5+Math.random()*5)+"s";
         document.body.appendChild(p);
         setTimeout(()=>p.remove(),9000);
     },300);
+
+    /* corazones */
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💞";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),6000);
+    },500);
 }
 
 </script>
