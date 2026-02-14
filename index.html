@@ -11,10 +11,10 @@ body{
     min-height:100vh;
     background:linear-gradient(135deg,#ff9a9e,#fad0c4);
     font-family:Arial,sans-serif;
+    overflow:auto; /* CAMBIADO */
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow-x:hidden;
 }
 
 /* CARD */
@@ -22,12 +22,13 @@ body{
     background:white;
     padding:22px;
     border-radius:20px;
-    max-width:400px;
+    max-width:380px;
     width:95%;
     text-align:center;
     z-index:2;
     box-shadow:0 15px 30px rgba(0,0,0,.3);
-    position:relative;
+    max-height:90vh; /* NUEVO */
+    overflow-y:auto; /* NUEVO */
 }
 
 h1{color:#e6005c;margin-bottom:5px;}
@@ -45,11 +46,7 @@ button{
 button:hover{transform:scale(1.07);}
 
 #yes{background:#ff4d88;color:white;}
-#no{
-    background:#ccc;
-    position:absolute;
-}
-
+#no{background:#ccc;position:absolute;}
 .music-btn{background:#1DB954;color:white;font-size:14px;}
 .letter-btn{background:#ff80aa;color:white;font-size:14px;}
 
@@ -60,11 +57,10 @@ button:hover{transform:scale(1.07);}
     gap:8px;
     margin:12px 0;
 }
-
 .gallery img,
 .gallery video{
     width:100%;
-    height:100px;
+    height:120px;
     object-fit:cover;
     border-radius:12px;
 }
@@ -89,7 +85,7 @@ button:hover{transform:scale(1.07);}
     font-size:14px;
 }
 #carta.open{
-    max-height:250px;
+    max-height:200px;
     padding:10px;
 }
 
@@ -112,7 +108,7 @@ button:hover{transform:scale(1.07);}
 
 /* CORAZONES */
 .heart{
-    position:fixed;
+    position:absolute;
     bottom:-20px;
     font-size:20px;
     animation:float 6s linear infinite;
@@ -125,8 +121,9 @@ button:hover{transform:scale(1.07);}
 /* FUEGOS */
 .firework{
     position:fixed;
-    width:6px;
-    height:6px;
+    width:5px;
+    height:5px;
+    background:yellow;
     border-radius:50%;
     animation:explode 1s ease-out forwards;
 }
@@ -148,19 +145,18 @@ button:hover{transform:scale(1.07);}
 
     <div id="contador"></div>
 
-    <!-- GALERÍA CORREGIDA -->
     <div class="gallery">
-        <img src="./foto1.jpg" alt="Foto 1">
-        <img src="./foto2.jpg" alt="Foto 2">
-        <img src="./foto3.jpg" alt="Foto 3">
-        <img src="./foto4.jpg" alt="Foto 4">
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+        <img src="foto4.jpg">
 
-        <video controls preload="metadata" playsinline>
-            <source src="./video6.mp4" type="video/mp4">
+        <video controls>
+            <source src="video6.mp4" type="video/mp4">
         </video>
 
-        <video controls preload="metadata" playsinline>
-            <source src="./video7.mp4" type="video/mp4">
+        <video controls>
+            <source src="video7.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -186,7 +182,6 @@ button:hover{transform:scale(1.07);}
 
 <script>
 
-/* CAMBIA ESTA FECHA */
 const fechaInicio = new Date("2024-06-15");
 
 function actualizarContador(){
@@ -218,7 +213,6 @@ function openMusic(){
     window.open("https://open.spotify.com/track/6pG9mY9bZ1G1wQ1R2Z0K5D","_blank");
 }
 
-/* CORAZONES */
 setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
@@ -229,7 +223,6 @@ setInterval(()=>{
     setTimeout(()=>h.remove(),6000);
 },350);
 
-/* FUEGOS */
 function lanzarFuegos(){
     for(let i=0;i<80;i++){
         const f=document.createElement("div");
@@ -248,5 +241,3 @@ function lanzarFuegos(){
 
 </body>
 </html>
-
-
