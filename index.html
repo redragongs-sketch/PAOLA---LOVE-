@@ -11,21 +11,22 @@ body{
     min-height:100vh;
     background:linear-gradient(135deg,#ff9a9e,#fad0c4);
     font-family:Arial,sans-serif;
+    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow-x:hidden;
 }
 
+/* CARD */
 .card{
     background:white;
     padding:22px;
     border-radius:20px;
-    max-width:400px;
+    max-width:380px;
     width:95%;
     text-align:center;
+    z-index:2;
     box-shadow:0 15px 30px rgba(0,0,0,.3);
-    position:relative;
 }
 
 h1{color:#e6005c;margin-bottom:5px;}
@@ -43,33 +44,25 @@ button{
 button:hover{transform:scale(1.07);}
 
 #yes{background:#ff4d88;color:white;}
-#no{
-    background:#ccc;
-    position:absolute;
-}
-
+#no{background:#ccc;position:absolute;}
 .music-btn{background:#1DB954;color:white;font-size:14px;}
 .letter-btn{background:#ff80aa;color:white;font-size:14px;}
 
+/* GALERÍA */
 .gallery{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
     margin:12px 0;
 }
-
-.gallery img,
-.gallery video{
+.gallery img{
     width:100%;
-    height:130px;
+    height:90px;
     object-fit:cover;
     border-radius:12px;
 }
 
-video{
-    background:#000;
-}
-
+/* CONTADOR */
 #contador{
     font-weight:bold;
     color:#e6005c;
@@ -77,6 +70,7 @@ video{
     font-size:14px;
 }
 
+/* CARTA */
 #carta{
     max-height:0;
     overflow:hidden;
@@ -88,10 +82,11 @@ video{
     font-size:14px;
 }
 #carta.open{
-    max-height:300px;
+    max-height:200px;
     padding:10px;
 }
 
+/* MENSAJE FINAL */
 #loveMessage{
     display:none;
     position:fixed;
@@ -108,8 +103,9 @@ video{
     flex-direction:column;
 }
 
+/* CORAZONES */
 .heart{
-    position:fixed;
+    position:absolute;
     bottom:-20px;
     font-size:20px;
     animation:float 6s linear infinite;
@@ -119,10 +115,12 @@ video{
     to{transform:translateY(-110vh) scale(1.5);opacity:0}
 }
 
+/* FUEGOS */
 .firework{
     position:fixed;
-    width:6px;
-    height:6px;
+    width:5px;
+    height:5px;
+    background:yellow;
     border-radius:50%;
     animation:explode 1s ease-out forwards;
 }
@@ -142,25 +140,102 @@ video{
     <p>Mi gordita hermosa…</p>
     <p>¿Quieres ser mi San Valentín? ❤️</p>
 
+    <!-- CONTADOR -->
     <div id="contador"></div>
 
+    <!-- GALERÍA -->
     <div class="gallery">
-        <img src="foto1.jpg" alt="Foto 1">
-        <img src="foto2.jpg" alt="Foto 2">
-        <img src="foto3.jpg" alt="Foto 3">
-        <img src="foto4.jpg" alt="Foto 4">
-
-        <!-- VIDEOS CORREGIDOS -->
-        <video controls playsinline preload="metadata">
-            <source src="videos/video6.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
-
-        <video controls playsinline preload="metadata">
-            <source src="videos/video7.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+        <img src="foto4.jpg">
+        <img src="foto5.jpg">
+        <img src="foto6.jpg">
     </div>
 
-    <
+    <button class="music-btn" onclick="openMusic()">🎵 Escuchar Roslyn</button>
+    <button class="letter-btn" onclick="toggleCarta()">💌 Leer Carta</button><br>
+
+    <!-- CARTA -->
+    <div id="carta">
+        Mi amor… gracias por cada sonrisa, cada abrazo y cada momento.
+        Eres mi lugar seguro, mi felicidad diaria y mi persona favorita.
+        Te amo infinito 💖
+    </div>
+
+    <button id="yes" onclick="aceptar()">Sí 💖</button>
+    <button id="no" onmouseover="mover()" ontouchstart="mover()">No 😢</button>
+</div>
+
+<div id="loveMessage">
+    💖 ¡SABÍA QUE DIRÍAS QUE SÍ! 💖
+    <span style="font-size:18px;margin-top:15px;">
+        Te amo mi amorcito, gracias por hacer mi vida más bonita desde que te conoci te volviste la persona mas importante de mi vida no sabe cuanto estoy agradecido al señor por tener tan maravillosa mujer eres todo para mi te amo infinitamente 💘
+    </span>
+</div>
+
+<script>
+
+/* CAMBIA ESTA FECHA POR EL DÍA QUE EMPEZARON */
+const fechaInicio = new Date("2024-11-15");
+
+function actualizarContador(){
+    const hoy = new Date();
+    const diff = hoy - fechaInicio;
+    const dias = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("contador").innerHTML =
+        "💞 Llevamos juntos: " + dias + " días";
+}
+setInterval(actualizarContador,1000);
+actualizarContador();
+
+function toggleCarta(){
+    document.getElementById("carta").classList.toggle("open");
+}
+
+function aceptar(){
+    document.getElementById("loveMessage").style.display="flex";
+    lanzarFuegos();
+}
+
+function mover(){
+    const b=document.getElementById("no");
+    b.style.left=Math.random()*(window.innerWidth-120)+"px";
+    b.style.top=Math.random()*(window.innerHeight-60)+"px";
+}
+
+function openMusic(){
+    window.open("https://open.spotify.com/track/6pG9mY9bZ1G1wQ1R2Z0K5D","_blank");
+}
+
+/* CORAZONES */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=15+Math.random()*20+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},350);
+
+/* FUEGOS ARTIFICIALES */
+function lanzarFuegos(){
+    for(let i=0;i<80;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left="50%";
+        f.style.top="50%";
+        f.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        f.style.setProperty("--x",(Math.random()*400-200)+"px");
+        f.style.setProperty("--y",(Math.random()*400-200)+"px");
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+</script>
+
+</body>
+</html>
 
