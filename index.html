@@ -11,10 +11,10 @@ body{
     min-height:100vh;
     background:linear-gradient(135deg,#ff9a9e,#fad0c4);
     font-family:Arial,sans-serif;
-    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow-x:hidden;
 }
 
 /* CARD */
@@ -22,11 +22,12 @@ body{
     background:white;
     padding:22px;
     border-radius:20px;
-    max-width:380px;
+    max-width:400px;
     width:95%;
     text-align:center;
     z-index:2;
     box-shadow:0 15px 30px rgba(0,0,0,.3);
+    position:relative;
 }
 
 h1{color:#e6005c;margin-bottom:5px;}
@@ -44,26 +45,26 @@ button{
 button:hover{transform:scale(1.07);}
 
 #yes{background:#ff4d88;color:white;}
-#no{background:#ccc;position:absolute;}
+#no{
+    background:#ccc;
+    position:absolute;
+}
+
 .music-btn{background:#1DB954;color:white;font-size:14px;}
 .letter-btn{background:#ff80aa;color:white;font-size:14px;}
 
 /* GALERÍA */
 .gallery{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
     margin:12px 0;
 }
-.gallery img{
+
+.gallery img,
+.gallery video{
     width:100%;
-    height:90px;
-    object-fit:cover;
-    border-radius:12px;
-}
-    .gallery video{
-    width:100%;
-    height:90px;
+    height:100px;
     object-fit:cover;
     border-radius:12px;
 }
@@ -88,7 +89,7 @@ button:hover{transform:scale(1.07);}
     font-size:14px;
 }
 #carta.open{
-    max-height:200px;
+    max-height:250px;
     padding:10px;
 }
 
@@ -111,7 +112,7 @@ button:hover{transform:scale(1.07);}
 
 /* CORAZONES */
 .heart{
-    position:absolute;
+    position:fixed;
     bottom:-20px;
     font-size:20px;
     animation:float 6s linear infinite;
@@ -124,9 +125,8 @@ button:hover{transform:scale(1.07);}
 /* FUEGOS */
 .firework{
     position:fixed;
-    width:5px;
-    height:5px;
-    background:yellow;
+    width:6px;
+    height:6px;
     border-radius:50%;
     animation:explode 1s ease-out forwards;
 }
@@ -146,30 +146,27 @@ button:hover{transform:scale(1.07);}
     <p>Mi gordita hermosa…</p>
     <p>¿Quieres ser mi San Valentín? ❤️</p>
 
-    <!-- CONTADOR -->
     <div id="contador"></div>
 
-    <!-- GALERÍA -->
-   <div class="gallery">
-    <img src="foto1.jpg">
-    <img src="foto2.jpg">
-    <img src="foto3.jpg">
-    <img src="foto4.jpg">
+    <!-- GALERÍA CORREGIDA -->
+    <div class="gallery">
+        <img src="./foto1.jpg" alt="Foto 1">
+        <img src="./foto2.jpg" alt="Foto 2">
+        <img src="./foto3.jpg" alt="Foto 3">
+        <img src="./foto4.jpg" alt="Foto 4">
 
-    <video controls>
-        <source src="video6.mp4" type="video/mp4">
-    </video>
+        <video controls preload="metadata" playsinline>
+            <source src="./video6.mp4" type="video/mp4">
+        </video>
 
-    <video controls>
-        <source src="video7.mp4" type="video/mp4">
-    </video>
-</div>
-
+        <video controls preload="metadata" playsinline>
+            <source src="./video7.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <button class="music-btn" onclick="openMusic()">🎵 Escuchar Roslyn</button>
     <button class="letter-btn" onclick="toggleCarta()">💌 Leer Carta</button><br>
 
-    <!-- CARTA -->
     <div id="carta">
         Mi amor… gracias por cada sonrisa, cada abrazo y cada momento.
         Eres mi lugar seguro, mi felicidad diaria y mi persona favorita.
@@ -189,7 +186,7 @@ button:hover{transform:scale(1.07);}
 
 <script>
 
-/* CAMBIA ESTA FECHA POR EL DÍA QUE EMPEZARON */
+/* CAMBIA ESTA FECHA */
 const fechaInicio = new Date("2024-06-15");
 
 function actualizarContador(){
@@ -232,7 +229,7 @@ setInterval(()=>{
     setTimeout(()=>h.remove(),6000);
 },350);
 
-/* FUEGOS ARTIFICIALES */
+/* FUEGOS */
 function lanzarFuegos(){
     for(let i=0;i<80;i++){
         const f=document.createElement("div");
@@ -251,4 +248,5 @@ function lanzarFuegos(){
 
 </body>
 </html>
+
 
