@@ -6,7 +6,6 @@
 <title>Paola 💖 Mi Gordita</title>
 
 <style>
-/* TODO TU CSS IGUAL — NO CAMBIÉ NADA */
 body{
     margin:0;
     min-height:100vh;
@@ -18,7 +17,6 @@ body{
     align-items:center;
 }
 
-/* CARD */
 .card{
     background:white;
     padding:22px;
@@ -55,12 +53,7 @@ button:hover{transform:scale(1.07);}
     gap:8px;
     margin:12px 0;
 }
-.gallery img{
-    width:100%;
-    height:90px;
-    object-fit:cover;
-    border-radius:12px;
-}
+.gallery img,
 .gallery video{
     width:100%;
     height:90px;
@@ -136,7 +129,6 @@ button:hover{transform:scale(1.07);}
 
 <body>
 
-<!-- 🎵 MÚSICA DE FONDO -->
 <audio id="bgMusic" loop>
     <source src="roslyn.mp3" type="audio/mpeg">
 </audio>
@@ -148,20 +140,18 @@ button:hover{transform:scale(1.07);}
 
     <div id="contador"></div>
 
-<div class="gallery">
-    <img src="foto1.jpg">
-    <img src="foto2.jpg">
-    <img src="foto3.jpg">
-    <img src="foto4.jpg">
-
-    <video controls>
-        <source src="video6.mp4" type="video/mp4">
-    </video>
-
-    <video controls>
-        <source src="video7.mp4" type="video/mp4">
-    </video>
-</div>
+    <div class="gallery">
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+        <img src="foto4.jpg">
+        <video controls>
+            <source src="video6.mp4" type="video/mp4">
+        </video>
+        <video controls>
+            <source src="video7.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <button class="music-btn" onclick="openMusic()">🎵 Reproducir / Pausar</button>
     <button class="letter-btn" onclick="toggleCarta()">💌 Leer Carta</button><br>
@@ -185,13 +175,12 @@ button:hover{transform:scale(1.07);}
 
 <script>
 
-/* 🎵 CONFIGURACIÓN DE MÚSICA */
+/* 🎵 MÚSICA */
 const music = document.getElementById("bgMusic");
-music.volume = 0.3; // volumen suave romántico
+music.volume = 0.3;
 
-// Se activa con el primer clic en cualquier parte
 document.addEventListener("click", () => {
-    music.play();
+    music.play().catch(()=>{});
 }, { once: true });
 
 function openMusic(){
@@ -202,9 +191,66 @@ function openMusic(){
     }
 }
 
-/* TU SCRIPT ORIGINAL — NO CAMBIÉ NADA MÁS */
+/* CONTADOR */
+const fechaInicio = new Date("2024-11-15");
 
-const fechaInicio = n
+function actualizarContador(){
+    const hoy = new Date();
+    const diff = hoy - fechaInicio;
+    const dias = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("contador").innerHTML =
+        "💞 Llevamos juntos: " + dias + " días";
+}
+setInterval(actualizarContador,1000);
+actualizarContador();
 
+/* CARTA */
+function toggleCarta(){
+    document.getElementById("carta").classList.toggle("open");
+}
+
+/* ACEPTAR */
+function aceptar(){
+    document.getElementById("loveMessage").style.display="flex";
+    lanzarFuegos();
+}
+
+/* BOTÓN QUE HUYE */
+function mover(){
+    const b=document.getElementById("no");
+    b.style.left=Math.random()*(window.innerWidth-120)+"px";
+    b.style.top=Math.random()*(window.innerHeight-60)+"px";
+}
+
+/* CORAZONES */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=15+Math.random()*20+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},350);
+
+/* FUEGOS */
+function lanzarFuegos(){
+    for(let i=0;i<80;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left="50%";
+        f.style.top="50%";
+        f.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        f.style.setProperty("--x",(Math.random()*400-200)+"px");
+        f.style.setProperty("--y",(Math.random()*400-200)+"px");
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+</script>
+
+</body>
+</html>
 
 
